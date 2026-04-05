@@ -121,29 +121,32 @@ hr { border-color: #e0e7ff; }
 PREGUNTAS = [
     {
         "enunciado": (
-            "**Pregunta 1.** ¿Cuál es la solución general de la ecuación diferencial "
-            "ordinaria de primer orden $\\dfrac{dy}{dx} = 2x$?"
+            "**Pregunta 1.** Dada la ecuación $(2xy + y)\\,dx + x^2\\,dy = 0$, "
+            "al verificar si es exacta se comprueba que $\\dfrac{\\partial M}{\\partial y} \\neq \\dfrac{\\partial N}{\\partial x}$. "
+            "¿Cuánto vale $\\dfrac{\\partial M}{\\partial y} - \\dfrac{\\partial N}{\\partial x}$?"
         ),
         "opciones": [
-            "A) $y = x^2$",
-            "B) $y = x^2 + C$",
-            "C) $y = 2x^2 + C$",
-            "D) $y = \\frac{x^2}{2} + C$",
+            "A) $2x + 1$",
+            "B) $2x - 1$",
+            "C) $1$",
+            "D) $2x + 1 - 2x = 1$",
         ],
-        "correcta": "B) $y = x^2 + C$",
+        "correcta": "D) $2x + 1 - 2x = 1$",
     },
     {
         "enunciado": (
-            "**Pregunta 2.** La ecuación diferencial $\\dfrac{dy}{dx} + P(x)\\,y = Q(x)$ "
-            "es de tipo:"
+            "**Pregunta 2.** Para la ecuación $(2xy + y)\\,dx + x^2\\,dy = 0$, "
+            "se busca un factor integrante $\\mu$ dependiente solo de $x$. "
+            "Dado que $\\dfrac{1}{N}\\left(\\dfrac{\\partial M}{\\partial y} - \\dfrac{\\partial N}{\\partial x}\\right) = \\dfrac{1}{x^2}$, "
+            "¿cuál es el factor integrante $\\mu(x)$?"
         ),
         "opciones": [
-            "A) Separable",
-            "B) No lineal de primer orden",
-            "C) Lineal de primer orden",
-            "D) Exacta",
+            "A) $\\mu(x) = x$",
+            "B) $\\mu(x) = e^{1/x}$",
+            "C) $\\mu(x) = \\dfrac{1}{x}$",
+            "D) $\\mu(x) = x^2$",
         ],
-        "correcta": "C) Lineal de primer orden",
+        "correcta": "C) $\\mu(x) = \\dfrac{1}{x}$",
     },
 ]
 
