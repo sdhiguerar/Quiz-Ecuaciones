@@ -131,7 +131,13 @@ PREGUNTAS = [
             "C) $1$",
             "D) $2x + 1 - 2x = 1$",
         ],
-        "correcta": "D) $2x + 1 - 2x = 1$",
+        # C) y D) son equivalentes → ambas correctas
+        "correctas": [
+            "C) $1$",
+            "D) $2x + 1 - 2x = 1$",
+        ],
+        # Para mostrar en retroalimentación
+        "correcta_display": "C) $1$  ó  D) $2x + 1 - 2x = 1$ (equivalentes)",
     },
     {
         "enunciado": (
@@ -142,18 +148,19 @@ PREGUNTAS = [
         ),
         "opciones": [
             "A) $\\mu(x) = x$",
-            "B) $\\mu(x) = e^{1/x}$",
+            "B) $\\mu(x) = e^{-1/x}$",
             "C) $\\mu(x) = \\dfrac{1}{x}$",
             "D) $\\mu(x) = x^2$",
         ],
-        "correcta": "C) $\\mu(x) = \\dfrac{1}{x}$",
+        "correctas": ["B) $\\mu(x) = e^{-1/x}$"],
+        "correcta_display": "B) $\\mu(x) = e^{-1/x}$",
     },
 ]
 
 PUNTOS_POR_PREGUNTA = 2.5
 ARCHIVO_REGISTROS   = "registros_quiz.csv"
 ARCHIVO_CONTROL     = "control_quiz.csv"
-CLAVE_PROFESOR      = "curso2026"   # ← cambia esta clave
+CLAVE_PROFESOR      = "curso2026"
 
 # ── Utilidades ────────────────────────────────────────────────────────────────
 def cargar_registros():
@@ -188,15 +195,18 @@ def guardar_control(estado: dict):
         "resultados_visibles": int(estado["resultados_visibles"])
     }]).to_csv(ARCHIVO_CONTROL, index=False)
 
+def es_correcta(respuesta: str, pregunta: dict) -> bool:
+    """Devuelve True si la respuesta está en la lista de correctas de la pregunta."""
+    return respuesta in pregunta["correctas"]
+
 def buscar_resultado_por_documento(documento: str):
-    """Busca el registro de un estudiante por número de documento."""
     df = cargar_registros()
     if df.empty:
         return None
     coincidencia = df[df["Documento"].astype(str) == documento.strip()]
     if coincidencia.empty:
         return None
-    return coincidencia.iloc[-1]   # última entrega si hay varios intentos
+    return coincidencia.iloc[-1]
 
 # ── Estado inicial ────────────────────────────────────────────────────────────
 if "pantalla" not in st.session_state:
@@ -221,7 +231,7 @@ with st.sidebar:
             st.rerun()
 
 # ════════════════════════════════════════════════════════════════════════════════
-# PANTALLA: INICIO — dos opciones: hacer quiz o consultar resultado
+# PANTALLA: INICIO
 # ════════════════════════════════════════════════════════════════════════════════
 if st.session_state.pantalla == "inicio":
 
@@ -245,7 +255,7 @@ if st.session_state.pantalla == "inicio":
             st.info("🔒 La consulta de resultados aún no está disponible.")
 
 # ════════════════════════════════════════════════════════════════════════════════
-# PANTALLA: REGISTRO — datos del estudiante + juramento
+# PANTALLA: REGISTRO
 # ════════════════════════════════════════════════════════════════════════════════
 elif st.session_state.pantalla == "registro":
 
@@ -311,13 +321,12 @@ elif st.session_state.pantalla == "quiz":
             calificacion = 0.0
             resultados   = []
             for p, r in zip(PREGUNTAS, respuestas):
-                correcta = (r == p["correcta"])
+                correcta = es_correcta(r, p)
                 if correcta:
                     calificacion += PUNTOS_POR_PREGUNTA
                 resultados.append({
                     "respuesta": r,
                     "correcta":  correcta,
-                    "esperada":  p["correcta"]
                 })
 
             guardar_registro({
@@ -336,7 +345,7 @@ elif st.session_state.pantalla == "quiz":
             st.rerun()
 
 # ════════════════════════════════════════════════════════════════════════════════
-# PANTALLA: ENVIADO — confirmación tras submit
+# PANTALLA: ENVIADO
 # ════════════════════════════════════════════════════════════════════════════════
 elif st.session_state.pantalla == "enviado":
 
@@ -359,7 +368,7 @@ elif st.session_state.pantalla == "enviado":
         st.rerun()
 
 # ════════════════════════════════════════════════════════════════════════════════
-# PANTALLA: CONSULTAR RESULTADO — el estudiante digita su documento
+# PANTALLA: CONSULTAR RESULTADO
 # ════════════════════════════════════════════════════════════════════════════════
 elif st.session_state.pantalla == "consultar":
 
@@ -384,22 +393,27 @@ elif st.session_state.pantalla == "consultar":
                     st.error("No se encontró ningún registro con ese número de documento.")
                 else:
                     st.markdown("---")
-                    cal = float(registro["Calificación"])
-                    emoji = "🏆" if cal == 5.0 else ("👍" if cal >= 2.5 else "📚")
+
+                    # ── Recalcular nota con las reglas corregidas ──────────────
+                    cal_recalculada = 0.0
+                    for i, p in enumerate(PREGUNTAS):
+                        resp_val = registro[f"Respuesta P{i+1}"]
+                        if es_correcta(str(resp_val), p):
+                            cal_recalculada += PUNTOS_POR_PREGUNTA
+
+                    emoji = "🏆" if cal_recalculada == 5.0 else ("👍" if cal_recalculada >= 2.5 else "📚")
 
                     st.markdown(f"### {emoji} Resultado de **{registro['Nombre']}**")
                     st.markdown(
-                        f"<div class='score-badge'>{cal:.1f} / 5.0</div>",
+                        f"<div class='score-badge'>{cal_recalculada:.1f} / 5.0</div>",
                         unsafe_allow_html=True
                     )
                     st.markdown("---")
 
                     for i, p in enumerate(PREGUNTAS):
                         st.markdown(p["enunciado"])
-                        resp_col = f"Respuesta P{i+1}"
-                        ok_col   = f"Correcta P{i+1}"
-                        resp_val = registro[resp_col]
-                        es_ok    = str(registro[ok_col]).strip().lower() == "true"
+                        resp_val = str(registro[f"Respuesta P{i+1}"])
+                        es_ok    = es_correcta(resp_val, p)
 
                         if es_ok:
                             st.markdown(
@@ -412,7 +426,7 @@ elif st.session_state.pantalla == "consultar":
                                 unsafe_allow_html=True
                             )
                             st.markdown(
-                                f"<span class='correct'>Respuesta correcta: {p['correcta']}</span>",
+                                f"<span class='correct'>Respuesta correcta: {p['correcta_display']}</span>",
                                 unsafe_allow_html=True
                             )
                         st.markdown("---")
@@ -428,7 +442,6 @@ elif st.session_state.pantalla == "profesor":
 
     control = cargar_control()
 
-    # ── Control de retroalimentación ─────────────────────────────────────────
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown("### 🎛️ Control de resultados para estudiantes")
 
@@ -450,7 +463,6 @@ elif st.session_state.pantalla == "profesor":
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # ── Registros ─────────────────────────────────────────────────────────────
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown("### 📋 Registros del Quiz")
 
@@ -476,7 +488,6 @@ elif st.session_state.pantalla == "profesor":
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # ── Borrar registros ──────────────────────────────────────────────────────
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown("### 🗑️ Limpiar registros para nuevo quiz")
     st.error(
