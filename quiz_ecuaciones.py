@@ -121,35 +121,35 @@ hr { border-color: #e0e7ff; }
 PREGUNTAS = [
     {
         "enunciado": (
-            "**Pregunta 1.** Dada la ecuación $(2xy + y)\\,dx + x^2\\,dy = 0$, "
-            "al verificar si es exacta se comprueba que $\\dfrac{\\partial M}{\\partial y} \\neq \\dfrac{\\partial N}{\\partial x}$. "
-            "¿Cuánto vale $\\dfrac{\\partial M}{\\partial y} - \\dfrac{\\partial N}{\\partial x}$?"
-        ),
-        "opciones": [
-            "A) $2x + 1$",
-            "B) $2x - 1$",
-            "C) $1$",
-            "D) $0$",
-        ],
-        "correctas": ["C) $1$"],
-        "correcta_display": "C) $1$",
-    },
-    {
-        "enunciado": (
-            "**Pregunta 2.** Para la ecuación $(2xy + y)\\,dx + x^2\\,dy = 0$, "
-            "se busca un factor integrante $\\mu$ dependiente solo de $x$. "
-            "Dado que $\\dfrac{1}{N}\\left(\\dfrac{\\partial M}{\\partial y} - \\dfrac{\\partial N}{\\partial x}\\right) = \\dfrac{1}{x^2}$, "
+            "**Pregunta 3.** Dada la ecuación diferencial lineal de primer orden "
+            "$\\dfrac{dy}{dx} + 3y = 6$, "
             "¿cuál es el factor integrante $\\mu(x)$?"
         ),
         "opciones": [
-            "A) $\\mu(x) = x$",
-            "B) $\\mu(x) = e^{-1/x}$",
-            "C) $\\mu(x) = \\dfrac{1}{x}$",
-            "D) $\\mu(x) = x^2$",
+            "A) $\\mu(x) = e^{-3x}$",
+            "B) $\\mu(x) = 3x$",
+            "C) $\\mu(x) = e^{3x}$",
+            "D) $\\mu(x) = x^3$",
         ],
-        "correctas": ["B) $\\mu(x) = e^{-1/x}$"],
-        "correcta_display": "B) $\\mu(x) = e^{-1/x}$",
+        "correctas": ["C) $\\mu(x) = e^{3x}$"],
+        "correcta_display": "C) $\\mu(x) = e^{3x}$",
     },
+    {
+        "enunciado": (
+            "**Pregunta 4.** Para la ecuación lineal $\\dfrac{dy}{dx} + 3y = 6$, "
+            "una vez multiplicada por el factor integrante $\\mu(x) = e^{3x}$, "
+            "al integrar ambos lados se obtiene $y\\,e^{3x} = 2e^{3x} + C$. "
+            "¿Cuál es la solución general?"
+        ),
+        "opciones": [
+            "A) $y = 6 + Ce^{3x}$",
+            "B) $y = 2 + Ce^{-3x}$",
+            "C) $y = 2x + Ce^{-3x}$",
+            "D) $y = Ce^{-3x}$",
+        ],
+        "correctas": ["B) $y = 2 + Ce^{-3x}$"],
+        "correcta_display": "B) $y = 2 + Ce^{-3x}$",
+    },,
 ]
 
 PUNTOS_POR_PREGUNTA = 2.5
