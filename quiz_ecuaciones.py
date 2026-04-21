@@ -121,41 +121,40 @@ hr { border-color: #e0e7ff; }
 PREGUNTAS = [
     {
         "enunciado": (
-            "**Pregunta 3.** Dada la ecuación diferencial lineal de primer orden "
-            "$\\dfrac{dy}{dx} + 3y = 6$, "
-            "¿cuál es el factor integrante $\\mu(x)$?"
-        ),
-        "opciones": [
-            "A) $\\mu(x) = e^{-3x}$",
-            "B) $\\mu(x) = 3x$",
-            "C) $\\mu(x) = e^{3x}$",
-            "D) $\\mu(x) = x^3$",
-        ],
-        "correctas": ["C) $\\mu(x) = e^{3x}$"],
-        "correcta_display": "C) $\\mu(x) = e^{3x}$",
-    },
-    {
-        "enunciado": (
-            "**Pregunta 4.** Para la ecuación lineal $\\dfrac{dy}{dx} + 3y = 6$, "
-            "una vez multiplicada por el factor integrante $\\mu(x) = e^{3x}$, "
-            "al integrar ambos lados se obtiene $y\\,e^{3x} = 2e^{3x} + C$. "
+            "**Pregunta 5.** Considere la ecuación diferencial\n\n"
+            "$$y'' + 2y' + 5y = 0.$$ \n\n"
             "¿Cuál es la solución general?"
         ),
         "opciones": [
-            "A) $y = 6 + Ce^{3x}$",
-            "B) $y = 2 + Ce^{-3x}$",
-            "C) $y = 2x + Ce^{-3x}$",
-            "D) $y = Ce^{-3x}$",
+            "A) $y = e^{-x}(C_1 \\cos(2x) + C_2 \\sin(2x))$",
+            "B) $y = e^{x}(C_1 \\cos(2x) + C_2 \\sin(2x))$",
+            "C) $y = C_1 e^{-x} + C_2 e^{-5x}$",
+            "D) $y = e^{-x}(C_1 \\cos(x) + C_2 \\sin(x))$",
         ],
-        "correctas": ["B) $y = 2 + Ce^{-3x}$"],
-        "correcta_display": "B) $y = 2 + Ce^{-3x}$",
+        "correctas": ["A) $y = e^{-x}(C_1 \\cos(2x) + C_2 \\sin(2x))$"],
+        "correcta_display": "A) $y = e^{-x}(C_1 \\cos(2x) + C_2 \\sin(2x))$",
+    },
+    {
+        "enunciado": (
+            "**Pregunta 6.** Considere la ecuación diferencial\n\n"
+            "$$y'' + 4y' + 4y = 0.$$ \n\n"
+            "¿Cuál es la solución general?"
+        ),
+        "opciones": [
+            "A) $y = C_1 e^{-2x} + C_2 e^{-2x}$",
+            "B) $y = C_1 e^{2x} + C_2 e^{-2x}$",
+            "C) $y = (C_1 + C_2 x)e^{-2x}$",
+            "D) $y = C_1 e^{-2x} + C_2 x e^{2x}$",
+        ],
+        "correctas": ["C) $y = (C_1 + C_2 x)e^{-2x}$"],
+        "correcta_display": "C) $y = (C_1 + C_2 x)e^{-2x}$",
     }
 ]
 
 PUNTOS_POR_PREGUNTA = 2.5
 ARCHIVO_REGISTROS   = "registros_quiz.csv"
 ARCHIVO_CONTROL     = "control_quiz.csv"
-CLAVE_PROFESOR      = "curso2026"
+CLAVE_PROFESOR      = "Profe2026"
 
 # ── Utilidades ────────────────────────────────────────────────────────────────
 def cargar_registros():
